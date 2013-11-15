@@ -24,11 +24,16 @@
                     if (err) {
                         alert("read failed");
                     } else {
+                        // Empty the list of any previous items
+                        $('#books-list').empty();
                         // Loop over the items in the Collection
                         while(books.hasNextEntity()) {
                             var book = books.getNextEntity();
-                            alert(book.get("title")); // Output the title of the book
+                            //Output the book on the page
+                            $('#books-list').append('<li><h3>'+book.get('title')+'</h3><p>'+book.get('author')+'</p></li>');
                         }
+                        // Reapply the CSS to the new list items
+                        $('#books-list').listview('refresh');
                     }
                 });
 
