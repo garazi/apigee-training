@@ -2,23 +2,18 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>MyBooks</title>
+  <title>My Books</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <link href="css/codiqa.ext.min.css" rel="stylesheet">
-  <link href="css/jquery.mobile-1.3.1.min.css" rel="stylesheet">
-
   <script src="js/jquery-1.9.1.min.js"></script>
   <script src="js/jquery.mobile-1.3.1.min.js"></script>
-  <script src="js/codiqa.ext.min.js"></script>
-  <script src="js/mybooks.js"></script>
+  <link href="css/jquery.mobile-1.3.1.min.css" rel="stylesheet">
   <script src="js/apigee.js"></script>
   <script>
 // Initializing the SDK
             var client = new Apigee.Client({
-                orgName:'garazi', // Your Apigee.com username for App Services
+                orgName:'yourorgname', // Your Apigee.com username for App Services
                 appName:'sandbox' // Your Apigee App Services app name
             });
 
@@ -45,9 +40,9 @@
   </script>
 </head>
 <body>
-  <div data-role="page" data-control-title="Home" id="page4">
+  <div data-role="page" data-control-title="Home" id="page-booklist">
       <div data-theme="b" data-role="header">
-          <a data-transition="flip" data-role="button" href="#page3" data-icon="plus" data-iconpos="left"
+          <a data-role="button" href="#page-add" data-icon="plus" data-iconpos="left"
           class="ui-btn-right">
               Add
           </a>
@@ -58,39 +53,71 @@
       <div data-role="content">
           <ul data-role="listview" data-divider-theme="b" data-inset="false">
               <li data-theme="c">
-                  First Title
+                  <h3>First Title</h3>
+                  <p>First Author</p>
               </li>
               <li data-theme="c">
-                  Second title
+                  <h3>Second Title</h3>
+                  <p>Second Author</p>
               </li>
           </ul>
       </div>
   </div>
-  <div data-role="page" data-control-title="Form" id="page3">
+  <div data-role="page" data-control-title="Add Form" id="page-add">
       <div data-theme="b" data-role="header">
           <h3>
               Add A Book
           </h3>
       </div>
       <div data-role="content">
-          <form action="">
+          <form id="form-add" action="">
               <div data-role="fieldcontain" data-controltype="textinput">
-                  <label for="textinput1">
-                      Title
+                  <label for="book-title">
+                      Title:
                   </label>
-                  <input name="" id="textinput1" placeholder="" value="" type="text">
+                  <input name="book-title" id="book-title" placeholder="" value="" type="text">
               </div>
               <div data-role="fieldcontain" data-controltype="textinput">
-                  <label for="textinput2">
-                      Author
+                  <label for="book-author">
+                      Author:
                   </label>
-                  <input name="" id="textinput2" placeholder="" value="" type="text">
+                  <input name="book-author" id="book-author" placeholder="" value="" type="text">
               </div>
-              <a data-role="button" data-inline="true" href="#page4" data-transition="slide">
+              <a data-role="button" data-inline="true" data-direction="reverse" data-rel="back"
+              href="#page-booklist">
                   Cancel
               </a>
-              <a data-role="button" data-inline="true" href="#page3">
+              <a data-role="button" data-inline="true" data-direction="reverse" href="#page-add">
                   Submit
+              </a>
+          </form>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="Login" id="page-login">
+      <div data-theme="b" data-role="header">
+          <h3>
+              Login
+          </h3>
+      </div>
+      <div data-role="content">
+          <form id="form-login" action="">
+              <div data-role="fieldcontain" data-controltype="textinput">
+                  <label for="username">
+                      Username:
+                  </label>
+                  <input name="username" id="username" placeholder="" value="" type="text">
+              </div>
+              <div data-role="fieldcontain" data-controltype="textinput">
+                  <label for="userpwd">
+                      Password:
+                  </label>
+                  <input name="userpwd" id="userpwd" placeholder="" value="" type="password">
+              </div>
+              <a data-role="button" data-inline="true" href="#page-booklist">
+                  Clear
+              </a>
+              <a data-role="button" data-inline="true" data-direction="reverse" href="#page-login">
+                  Login
               </a>
           </form>
       </div>
