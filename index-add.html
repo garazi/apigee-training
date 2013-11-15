@@ -19,30 +19,54 @@
 
             // Reading data
             var books = new Apigee.Collection({ "client":client, "type":"books" });
-            books.fetch(
-                function(err, data) { // Success
-                    if (err) {
-                        alert("read failed");
-                    } else {
-                        // Empty the list of any previous items
-                        $('#books-list').empty();
-                        // Loop over the items in the Collection
-                        while(books.hasNextEntity()) {
-                            var book = books.getNextEntity();
-                            //Output the book on the page
-                            $('#books-list').append('<li><h3>'+book.get('title')+'</h3><p>'+book.get('author')+'</p></li>');
-                        }
-                        // Reapply the CSS to the new list items
-                        $('#books-list').listview('refresh');
-                    }
-                });
 
-            // Uncomment the next 4 lines if you want to write data
+            // jQuery document.ready function instructs the browser to execute its code after the DOM finishes loading
+            $(function () {
 
-            // book = { "title": "the old man and the sea" };
-            // books.addEntity(book, function (error, response) {
-            //  if (error) { alert("write failed");
-            //  } else { alert("write succeeded"); } });
+              loadBooks();
+
+              // Wrap the fetch in a named function to allow it to be reused
+              function loadBooks () {
+                books.fetch(
+                  function(err, data) { // Success
+                      if (err) {
+                          alert("read failed");
+                      } else {
+                          // Empty the list of any previous items
+                          $('#books-list').empty();
+                          // Loop over the items in the Collection
+                          while(books.hasNextEntity()) {
+                              var book = books.getNextEntity();
+                              //Output the book on the page
+                              $('#books-list').append('<li><h3>'+book.get('title')+'</h3><p>'+book.get('author')+'</p></li>');
+                          }
+                          // Reapply the CSS to the new list items
+                          $('#books-list').listview('refresh');
+                      }
+                  });
+              }
+
+              $('#form-add').on('click', '#btn-add-book', createBook);
+
+              function createBook() {
+
+                  book = {
+                    "title":$("#book-title").val(),
+                    "author":$("#book-author").val()
+                  };
+
+                  books.addEntity(book, function (error, response) {
+                      if (error) {
+                          alert('write failed');
+                      } else {
+                          $("#book-title").val(""), $("#book-author").val("");
+                          loadBooks();
+                          history.back();
+                      }
+                  });
+              }
+
+            });
   </script>
 </head>
 <body>
