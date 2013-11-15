@@ -35,23 +35,29 @@
 
             function geoFailure () {
               alert("Unable to access your geolocation");
+              loadBooks();
             }
 
             //loadBooks(location); <-- This function has been moved inside of the geoSuccess function above so that it doesn't execute until the device's location has been determined
 
             // Wrap the fetch in a named function to allow it to be reused
             function loadBooks (location) {
-
-              // Return the first 25 entities in the collection and sort them by title
-              books = new Apigee.Collection({
+              if (!location) {
+                books = new Apigee.Collection({
+                "client":client,
+                "type":"books"});
+              } else {
+                // Return the first 25 entities in the collection and sort them by title
+                books = new Apigee.Collection({
                 "client":client,
                 "type":"books",
                 "qs":{
                   "limit": 25,
                   "ql":"location within 15000 of "+location.coords.latitude+","+location.coords.longitude
-                }
-              });
-
+                  }
+                });
+              }
+              
               books.fetch(
                 function(err, data) { // Success
                     if (err) {
@@ -101,6 +107,27 @@
                         history.back();
                     }
                 });
+            }
+
+            $('#books-list').on('click', 'li', deleteBook);
+
+            function deleteBook (e) {
+              var title = $(this).find('h3').html();
+              var options = {
+                "endpoint": "/books",
+                "method": "DELETE",
+                "qs": {
+                  "ql": "title='"+title+"'"
+                }
+              }
+
+              client.request(options, function (err, response) {
+                if (err) {
+                  alert("Unable to delete item");
+                } else {
+                  loadBooks(location);
+                }
+              });
             }
     });
   </script>
