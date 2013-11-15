@@ -11,10 +11,7 @@
   <link href="css/jquery.mobile-1.3.1.min.css" rel="stylesheet">
   <script src="js/apigee.js"></script>
   <script>
-  // jQuery document.ready function instructs the browser to execute its code after the DOM finishes loading
-    $(function () {
-
-          // Initializing the SDK
+// Initializing the SDK
             var client = new Apigee.Client({
                 orgName:'yourorgname', // Your Apigee.com username for App Services
                 appName:'sandbox' // Your Apigee App Services app name
@@ -22,12 +19,7 @@
 
             // Reading data
             var books = new Apigee.Collection({ "client":client, "type":"books" });
-
-            loadBooks();
-
-            // Wrap the fetch in a named function to allow it to be reused
-            function loadBooks () {
-              books.fetch(
+            books.fetch(
                 function(err, data) { // Success
                     if (err) {
                         alert("read failed");
@@ -48,38 +40,19 @@
                         localStorage.setItem('books', $('#books-list').html());
                     }
                 });
-            }
 
-            // Bind the click on the submit button to the createBook function
-            $('#form-add').on('click', '#btn-add-book', createBook);
+            // Uncomment the next 4 lines if you want to write data
 
-            // This function is called by clicking on the submit button to add a book
-            function createBook() {
-                // Grab the values of the form fields and build the JSON object to POST
-                book = {
-                  "title":$("#book-title").val(),
-                  "author":$("#book-author").val()
-                };
-
-                // Add the book to the collection
-                books.addEntity(book, function (error, response) {
-                    if (error) {
-                        alert('write failed');
-                    } else {
-                        // Clear the form fields after successfully adding the book, then refetch the list of books and return to the list
-                        $("#book-title").val(""), $("#book-author").val("");
-                        loadBooks();
-                        history.back();
-                    }
-                });
-            }
-    });
+            // book = { "title": "the old man and the sea" };
+            // books.addEntity(book, function (error, response) {
+            //  if (error) { alert("write failed");
+            //  } else { alert("write succeeded"); } });
   </script>
 </head>
 <body>
   <div data-role="page" data-control-title="Home" id="page-booklist">
       <div data-theme="b" data-role="header">
-          <a data-role="button" data-rel="dialog" href="#page-add" data-icon="plus" data-iconpos="left"
+          <a data-role="button" href="#page-add" data-icon="plus" data-iconpos="left"
           class="ui-btn-right">
               Add
           </a>
