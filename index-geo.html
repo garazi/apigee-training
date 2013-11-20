@@ -9,13 +9,18 @@
   <script src="js/jquery-1.9.1.min.js"></script>
   <script src="js/jquery.mobile-1.3.1.min.js"></script>
   <link href="css/jquery.mobile-1.3.1.min.css" rel="stylesheet">
+  <style type="text/css">
+  #slider-wrapper {
+    padding: 5px;
+  }
+  </style>
   <script src="js/apigee.js"></script>
   <script>
   // jQuery document.ready function instructs the browser to execute its code after the DOM finishes loading
     $(function () {   
 
           // Declare variables that need to be used in multiple functions
-          var books,location;   
+          var books,location, distance;   
 
           // Initializing the SDK
             var client = new Apigee.Client({
@@ -48,12 +53,18 @@
                 "type":"books"});
               } else {
                 // Return the first 25 entities in the collection and sort them by title
+                if (!distance) {
+                  distance = 100;
+                }
+                console.log ("here: " + distance);
+                console.log ("loc: " + location)
+                distance = distance * 1609.34;
                 books = new Apigee.Collection({
                 "client":client,
                 "type":"books",
                 "qs":{
                   "limit": 25,
-                  "ql":"location within 15000 of "+location.coords.latitude+","+location.coords.longitude
+                  "ql":"location within " + distance + " of "+location.coords.latitude+","+location.coords.longitude
                   }
                 });
               }
@@ -129,6 +140,11 @@
                 }
               });
             }
+            $( "#distance-slider" ).on( "slidestop", function( event, ui ) {
+              distance = $("#distance-slider").val();
+              console.log(distance)
+              loadBooks(location);
+            } );
     });
   </script>
 </head>
@@ -154,6 +170,11 @@
                   <p>Second Author</p>
               </li>
           </ul>
+      </div>
+      <div id="slider-wrapper" data-role="footer" data-position="fixed" data-theme="b">
+        <form>
+            <input type="range" name="distance-slider" id="distance-slider" min="0" max="1000" value="100">
+        </form>
       </div>
   </div>
   <div data-role="page" data-control-title="Add Form" id="page-add">
