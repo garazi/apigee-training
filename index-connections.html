@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>My Books</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <script src="js/jquery-1.9.1.min.js"></script>
+  <script src="js/jquery.mobile-1.3.1.min.js"></script>
+  <link href="css/jquery.mobile-1.3.1.min.css" rel="stylesheet">
+  <style type="text/css">
+    #slider-wrapper {
+      padding: 5px;
+    }
+    .showMenu {
+
+    }
+  </style>
+  <script src="js/apigee.js"></script>
+  <script>
+  // jQuery document.ready function instructs the browser to execute its code after the DOM finishes loading
+    $(function () {   
+
+          // Declare variables that need to be used in multiple functions
+          var books,location,distance,appUser,booktypes;
+
+          // Initializing the SDK
+            var client = new Apigee.Client({
+                orgName:'garazi', // Your Apigee.com username for App Services
+                appName:'sandbox' // Your Apigee App Services app name
+            });
+
+          // showLoader();
+
+          // requireLogin();
+
+          $('#form-login').on('click', '#btn-login', login);
+          $('#sidebar').on('click', '#btn-logout', requireLogin);
+
+          function requireLogin () {
+              client.logout();
+              window.location = "#page-login";
+          }
+
+          function createUser () {
+            var username = $("#username").val();
+            var password = $("#userpwd").val();
+            var options = {
+                method:'POST',
+                endpoint:'users',
+                body:{
+                  username: username,
+                  name: username,
+                  email: username,
+                  password: password
+                }
+            };
+            client.request(options, function (err, data) {
+                if (err) {
+                    console.log('FAIL')
+                } else {
+                    console.log('SUCCESS')   
+                }
+            });
+          }
+
+          function login() {
+                $('#login-section-error').html('');
+                var username = $("#username").val();
+                var password = $("#userpwd").val();
+                client.login(username, password,
+                  function (err) {
+                    if (err) {
+                      $('#login-section-error').html('There was an error logging you in.');
+                      console.log(err)
+                    } else {
+                      //login succeeded
+                      client.getLoggedInUser(function(err, data, user) {
+                        if(err) {
+                          //error - could not get logged in user
+                        } else {
+                          if (client.isLoggedIn()){
+                            appUser = user;
+                          }
+                        }
+                      });
+
+                      //clear out the login form so it is empty if the user chooses to log out
+                      $("#username").val('');
+                      $("#password").val('');
+
+                      //default to the full feed view (all messages in the system)
+                      window.location = "#page-booklist";
+                      showLoader();
+                    }
+                  }
+                );
+              }
+
+            // Get the device's geolocation and pass the result to the geoSuccess function
+            navigator.geolocation.getCurrentPosition(geoSuccess, geoFailure);
+            
+            // Store the geolocation result in the location variable and call the loadBooks function, passing the location as a parameter
+            function geoSuccess (e) {
+              console.log(e)
+              location = e;
+              // loadBooks(location);
+              loadBooks();
+            }
+
+            function geoFailure () {
+              alert("Unable to access your geolocation");
+              loadBooks();
+            }
+
+            //loadBooks(location); <-- This function has been moved inside of the geoSuccess function above so that it doesn't execute until the device's location has been determined
+
+            // Wrap the fetch in a named function to allow it to be reused
+            function loadBooks (location) {
+              if (!location) {
+                books = new Apigee.Collection({
+                "client":client,
+                "type":"books"});
+              } else {
+                // Return the first 25 entities in the collection and sort them by title
+                if (!distance) {
+                  distance = 100;
+                }
+                console.log ("here: " + distance);
+                console.log ("loc: " + location)
+                distance = distance * 1609.34;
+                books = new Apigee.Collection({
+                "client":client,
+                "type":"books",
+                "qs":{
+                  "limit": 25,
+                  "ql":"location within " + distance + " of "+location.coords.latitude+","+location.coords.longitude
+                  }
+                });
+              }
+              
+              books.fetch(
+                function(err, data) { // Success
+                    if (err) {
+                        alert("read failed");
+                        // Load the contents of the list from localStorage
+                        $('#books-list').html(localStorage.getItem('books'));
+                    } else {
+                        // Empty the list of any previous items
+                        $('#books-list').empty();
+                        // Loop over the items in the Collection
+                        while(books.hasNextEntity()) {
+                            var book = books.getNextEntity();
+                            //Output the book on the page
+                            $('#books-list').append('<li><h3>'+book.get('title')+'</h3><p>'+book.get('author')+'</p></li>');
+                        }
+                        // Reapply the CSS to the new list items
+                        $('#books-list').listview('refresh');
+                        // Save the contents of the list to localStorage
+                        localStorage.setItem('books', $('#books-list').html());
+                    }
+                    $.mobile.loading("hide");
+                });
+            }
+
+            loadBookTypes();
+            function loadBookTypes () {
+              booktypes = new Apigee.Collection({
+                "client": client,
+                "type": "booktypes"
+              })
+              booktypes.fetch(
+                function(err, data) {
+                  if (err) {
+                    console.log(err)
+                  } else {
+                    while(booktypes.hasNextEntity()) {
+                            var booktype = booktypes.getNextEntity();
+                            $('#booktypes').append('<option value:' + booktype.get('name') + '>' + booktype.get('name') + '</option>');
+                  }
+                }
+              });
+            }
+
+            // Bind the click on the submit button to the createBook function
+            $('#form-add').on('click', '#btn-add-book', createBook);
+
+            // This function is called by clicking on the submit button to add a book
+            function createBook() {
+                // Grab the values of the form fields and build the JSON object to POST
+                book = {
+                  "title":$("#book-title").val(),
+                  "author":$("#book-author").val(),
+                  // "location": {
+                  //   "latitude": location.coords.latitude,
+                  //   "longitude": location.coords.longitude
+                  // }
+                };
+
+                // Add the book to the collection
+                books.addEntity(book, function (error, response) {
+                    if (error) {
+                        alert('write failed');
+                    } else {
+                        // Clear the form fields after successfully adding the book, then refetch the list of books and return to the list
+                        $("#book-title").val(""); 
+                        $("#book-author").val("");
+                        var booktypes = $("#booktypes option:selected").val();
+                        var options = {
+                            "type": "books",
+                            "uuid": response._data.uuid
+                        };
+                        client.getEntity(options, function(error, bookId, response) {
+                          // console.log(response.entities[0].uuid)
+                          var options = {
+                            "method": "POST",
+                            "endpoint": "/books/" + response.entities[0].uuid + "/belongsto/booktypes/" + booktypes
+                          }
+                          client.request(options, function (err, data) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log(data);
+                            }
+                          })
+                        });
+
+                        loadBooks(location);
+                        history.back();
+                    }
+                });
+            }
+
+
+            function showLoader () {
+              $.mobile.loading( "show", {
+                text: "Loading...",
+                textVisible: true,
+                theme: "c",
+                html: ""
+              });
+            }
+
+            $('#books-list').on('click', 'li', deleteBook);
+
+            function deleteBook (e) {
+              var title = $(this).find('h3').html();
+              var options = {
+                "endpoint": "/books",
+                "method": "DELETE",
+                "qs": {
+                  "ql": "title='"+title+"'"
+                }
+              }
+
+              client.request(options, function (err, response) {
+                if (err) {
+                  alert("Unable to delete item");
+                } else {
+                  loadBooks(location);
+                }
+              });
+            }
+            $( "#distance-slider" ).on( "slidestop", function( event, ui ) {
+              distance = $("#distance-slider").val();
+              console.log(distance)
+              loadBooks(location);
+            } );
+            $('#menu-btn').click(function() {
+              $( "#sidebar" ).panel( "toggle");
+              return false;
+            });
+    });
+  </script>
+</head>
+<body>
+  <div data-role="page" data-control-title="Home" id="page-booklist">
+    <div id="sidebar" data-role="panel">
+      <a id="btn-logout" data-role="button" data-inline="true" data-direction="reverse" href="#page-login">
+        Logout
+      </a>
+    </div>
+      <div data-theme="b" data-role="header" data-position="fixed">
+        <a id="menu-btn" data-role="button" data-rel="dialog" href="#page-add" data-icon="bars" data-iconpos="notext" class="ui-btn-left">
+              Menu
+          </a>
+          <a data-role="button" data-rel="dialog" href="#page-add" data-icon="plus" data-iconpos="left" class="ui-btn-right">
+              Add
+          </a>
+          <h3>
+              My Books
+          </h3>
+      </div>
+      <div data-role="content">
+          <ul id="books-list" data-role="listview" data-filter="true" data-divider-theme="b" data-inset="false">
+              <!-- <li data-theme="c">
+                  <h3>First Title</h3>
+                  <p>First Author</p>
+              </li>
+              <li data-theme="c">
+                  <h3>Second Title</h3>
+                  <p>Second Author</p>
+              </li> -->
+          </ul>
+      </div>
+      <div id="slider-wrapper" data-role="footer" data-position="fixed" data-theme="b">
+        <form>
+            <input type="range" name="distance-slider" id="distance-slider" min="0" max="1000" value="300">
+        </form>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="Add Form" id="page-add">
+      <div data-theme="b" data-role="header">
+          <h3>
+              Add A Book
+          </h3>
+      </div>
+      <div data-role="content">
+          <form id="form-add" action="">
+              <div data-role="fieldcontain" data-controltype="textinput">
+                  <label for="book-title">
+                      Title:
+                  </label>
+                  <input name="book-title" id="book-title" placeholder="" value="" type="text">
+              </div>
+              <div data-role="fieldcontain" data-controltype="textinput">
+                  <label for="book-author">
+                      Author:
+                  </label>
+                  <input name="book-author" id="book-author" placeholder="" value="" type="text">
+              </div>
+              <div data-role="fieldcontain" data-controltype="selectmenu">
+                  <label for="booktypes" class="select">Book Type:</label>
+                  <select name="booktypes" id="booktypes">
+
+                  </select>
+              </div>
+              <a id="btn-cancel" data-role="button" data-inline="true" data-direction="reverse" data-rel="back"
+              href="#page-booklist">
+                  Cancel
+              </a>
+              <a id="btn-add-book" data-role="button" data-inline="true" data-direction="reverse" href="#page-add">
+                  Submit
+              </a>
+          </form>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="Login" id="page-login">
+      <div data-theme="b" data-role="header">
+          <h3>
+              Login
+          </h3>
+      </div>
+      <div data-role="content">
+          <form id="form-login" action="">
+              <div data-role="fieldcontain" data-controltype="textinput">
+                  <label for="username">
+                      Username:
+                  </label>
+                  <input name="username" id="username" placeholder="" value="" type="text">
+              </div>
+              <div data-role="fieldcontain" data-controltype="textinput">
+                  <label for="userpwd">
+                      Password:
+                  </label>
+                  <input name="userpwd" id="userpwd" placeholder="" value="" type="password">
+              </div>
+              <a id="btn-clear" data-role="button" data-inline="true" href="#page-booklist">
+                  Clear
+              </a>
+              <a id="btn-login" data-role="button" data-inline="true" data-direction="reverse" href="#page-login">
+                  Login
+              </a>
+          </form>
+          <p id="login-section-error"></p>
+      </div>
+  </div>
+</body>
+</html>

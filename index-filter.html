@@ -74,7 +74,8 @@
                         alert('write failed');
                     } else {
                         // Clear the form fields after successfully adding the book, then refetch the list of books and return to the list
-                        $("#book-title").val(""), $("#book-author").val("");
+                        $("#book-title").val(""); 
+                        $("#book-author").val("");
                         loadBooks();
                         history.back();
                     }
