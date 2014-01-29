@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PhoneGap Installation Instructions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+	<div id="page">
+		<header>
+			<h1>PhoneGap Installation Instructions for Android</h1>
+		</header>
+		<section>
+			<p>Please complete the following steps to ensure that you have everything installed that you will need in order to build for Android using Phone.</p>
+			<ul id="nav">
+				<li><a href="#installnodejs">Download and Install NodeJS</a></li>
+				<li><a href="#installphonegap">Install PhoneGap</a></li>
+				<li><a href="#javajdk">Download and Install the Java JDK</a></li>
+				<li>
+					<a href="#androidstudio">Download and Install Android Studio</a>
+				</li>
+				<li>
+					<a href="#updatepath">Update PATH Variables</a>
+				</li>
+				<li>
+					<a href="#testphonegap">Test Phonegap</a>
+				</li>
+			</ul>
+		</section>
+		<section>
+			<ol class="main-list">
+				<li id="installnodejs">
+					<h3>Download and Install NodeJS</h3>
+						<img src="img/install-node.jpg" alt="Install NodeJS">
+						<ol>
+							<li>Go to the <a href="http://nodejs.org">NodeJS site</a> and click on the "Install" button, which will download the NodeJS installer.</li>
+							<li>Launch the installer and follow the steps to install NodeJS.</li>
+						</ol>
+				</li>
+				<li id="installphonegap">
+					<h3>Install PhoneGap</h3>
+						<img src="img/install-phonegap.jpg" alt="Install Phonegap">
+						<ol>
+							<li>You must complete the installation of NodeJS before proceeding.</li>
+							<li><strong>Mac:</strong> Open the Terminal application and type the following command
+								<pre><code>sudo npm install -g phonegap</code></pre>
+							</li>
+							<li><strong>Win:</strong> Open the Command Prompt application and type the following command
+								<pre><code>npm install -g phonegap</code></pre>
+							</li>
+							<li>Close the Terminal/Command Prompt</li>
+						</ol>
+				</li>
+				<li id="javajdk">
+					<h3>Install Java</h3>
+						<img src="img/install-java.jpg" alt="Install Java">
+						<ol>
+							<li>Go to the <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html">Oracle site</a> and download the Java SDK for your platform.</li>
+							<li>Launch the installer and follow the steps to install.</li>
+						</ol>
+				</li>
+				<li id="installant">
+					<h3>Install Ant</h3>
+						<img src="img/install-ant.jpg" alt="Install Ant">
+						<ol>
+							<li>Open the Terminal/Command Prompt application</li>
+							<li>Type <pre><code>ant</code></pre> and hit Return.</li>
+							<li>If you see the following, ant is installed - even though that message definitely doesn't sound like it! <pre><code>Buildfile: build.xml does not exist! Build failed</code></pre></li>
+							<li>If you are told that Ant is an unrecognized command, you will need to download and install Ant. <pre><code>'ant' is not recognized as an internal or external command, operable program or batch file.</code></pre></li>
+							<li>Go to the <a href="http://ant.apache.org/bindownload.cgi">Apache Ant site</a> and download the Ant binary.</li>
+							<li>Unzip the downloaded file and move the folder to a location of your choice. Just remember where you put it, because you will need to add the path to it to your system paths.</li>
+						</ol>
+				</li>
+				<li id="androidstudio">
+					<h3>Install Android Studio</h3>
+						<img src="img/install-android-studio.jpg" alt="Install Android Studio">
+						<ol>
+							<li>Go to the <a href="http://developer.android.com/sdk/installing/studio.html">Android Developer site</a> and download Android Studio.</li>
+							<li>Launch the installer and follow the steps to install.</li>
+						</ol>
+				</li>
+				<li id="updatepath">
+					<h3>Update Your Path Variables</h3>
+					<img src="img/update-path.jpg" alt="Update Path Variables">
+					<h4>Windows</h4>
+						<ol>
+							<li>Click on the Start menu then right-click on Computer, then click Properties.</li>
+							<li>Click Advanced System Settings in the column on the left.</li>
+							<li>In the dialog box, click Environment Variables.</li>
+							<li>Select the PATH variable in the upper section of the window and press Edit.</li>
+							<li>Append the following to the PATH based on where you installed the SDK, for example:
+								<pre><code>C:\Users\YOURUSERNAME\AppData\Local\Android\android-studio\sdk\tools;C:\Users\YOURUSERNAME\AppData\Local\Android\android-studio\sdk\platform-tools</code></pre>
+								<span class="note"><strong>Note:</strong> The path to Android Studio appears twice in the string (once to point to …\platform-tools and once to point to …\tools), and you need to add both occurences!</span>
+							</li>
+							<li>
+								If you needed to install Ant:
+								<ol class="sub-list">
+									<li>Append the location of the Ant folder to the PATH variable:
+									<pre><code>C:\Users\YOURUSERNAME\AppData\Local\apache-ant-1.9.2\bin</code></pre>
+									<strong>Note:</strong> the path includes the "bin" folder
+									</li>
+									<li>Click OK to save the updated PATH variables.</li>
+									<li>Click New to add a new User variable.</li>
+									<li>Give the new variable a name of ANT_HOME.</li>
+									<li>Enter the path to the Ant folder as the value for the ANT_HOME variable:
+										<pre><code>C:\Users\YOURUSERNAME\AppData\Local\apache-ant-1.9.2</code></pre>
+										Click OK.
+									</li>
+								</ol>
+							</li>
+							
+							<li>Click New to add a new User variable.</li>
+							<li>Give the new variable a name of JAVA_HOME.</li>
+							<li>Enter the path to the Java JDK that you installed as the value for the JAVA_HOME variable. It is probably located at:
+								<pre><code>C:\Program Files\Java\jdk1.7.0_45</code></pre>
+								Click OK.
+							</li>
+							<li>Save and Close the dialog box.</li>
+						</ol>	
+					<h4>Mac OSX</h4>
+						<ol>
+							<li>Open or create ~/.bash_profile in a text editor.</li>
+							<li><strong>Note:</strong> The filename begins with a period. This makes the file a hidden file. To open a hidden file, you will need to use an app that can do this, such as TextWrangler, or follow the <a href="http://j.mp/show-hidden-files">instructions here</a>.</li> 
+							<li>Add the following line:
+								<pre><code>export PATH=${PATH}:"/Applications/Android Studio.app/sdk/tools":"/Applications/Android Studio.app/sdk/platform-tools"</code></pre>
+								<span class="note">Update the path to Android Studio as necessary if you did not install it in /Applications</span>
+							</li>
+						</ol>
+				</li>
+				<li id="testphonegap">
+					<h3>Test PhoneGap</h3>
+						<ol>
+							<li>Open the Terminal/Command Prompt. <strong>Note:</strong> After you modify your PATH, you should quit and relaunch the Terminal/Command Prompt application to ensure that it gets the updated path variables.</li>
+							<li>Enter the following (responses have been omitted):
+<pre><code>
+cd /Users/YOURUSERNAME/Desktop
+phonegap create MyApp com.test.myapp MyApp
+cd MyApp
+phonegap local build android
+								</code></pre>
+							</li>
+							<li>If everything is installed correctly, you should see the following in the Terminal/Command Prompt:
+								<pre><code>[phonegap] adding the Android platform...
+[phonegap] compiling Android...
+[phonegap] successfully compiled Android app</code></pre>
+							</li>
+						</ol>
+				</li>
+			</ol>
+			<p>Congratulations! Your laptop is ready to build Android applications using PhoneGap.</p>
+		</section>
+		<footer>Copyright 2014 – Apigee</footer>
+	</div>
+</body>
+</html>

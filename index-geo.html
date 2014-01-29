@@ -62,7 +62,8 @@
                   distance = 100;
                 }
                 console.log ("here: " + distance);
-                console.log ("loc: " + location)
+                console.log ("latitude: " + location.coords.latitude)
+                console.log ("longitude: " + location.coords.longitude)
                 distance = distance * 1609.34;
                 books = new Apigee.Collection({
                 "client":client,

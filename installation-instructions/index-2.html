@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+*{margin:0;padding:0;}
+body {
+	font:13.34px helvetica,arial,freesans,clean,sans-serif;
+	color:black;
+	line-height:1.4em;
+	background-color: #F8F8F8;
+	padding: 0.7em;
+}
+p {
+	margin:1em 0;
+	line-height:1.5em;
+}
+table {
+	font-size:inherit;
+	font:100%;
+	margin:1em;
+}
+table th{border-bottom:1px solid #bbb;padding:.2em 1em;}
+table td{border-bottom:1px solid #ddd;padding:.2em 1em;}
+input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}
+select,option{padding:0 .25em;}
+optgroup{margin-top:.5em;}
+pre,code{font:12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;}
+pre {
+	margin:1em 0;
+	font-size:12px;
+	background-color:#eee;
+	border:1px solid #ddd;
+	padding:5px;
+	line-height:1.5em;
+	color:#444;
+	overflow:auto;
+	-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;border-radius:3px;
+}
+pre code {
+	padding:0;
+	font-size:12px;
+	background-color:#eee;
+	border:none;
+}
+code {
+	font-size:12px;
+	background-color:#f8f8ff;
+	color:#444;
+	padding:0 .2em;
+	border:1px solid #dedede;
+}
+img{border:0;max-width:100%;}
+abbr{border-bottom:none;}
+a{color:#4183c4;text-decoration:none;}
+a:hover{text-decoration:underline;}
+a code,a:link code,a:visited code{color:#4183c4;}
+h2,h3{margin:1em 0;}
+h1,h2,h3,h4,h5,h6{border:0;}
+h1{font-size:170%;border-top:4px solid #aaa;padding-top:.5em;margin-top:1.5em;}
+h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}
+h2{font-size:150%;margin-top:1.5em;border-top:4px solid #e0e0e0;padding-top:.5em;}
+h3{margin-top:1em;}
+hr{border:1px solid #ddd;}
+ul{margin:1em 0 1em 2em;}
+ol{margin:1em 0 1em 2em;}
+ul li,ol li{margin-top:.5em;margin-bottom:.5em;}
+ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}
+blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}
+dt{font-weight:bold;margin-left:1em;}
+dd{margin-left:2em;margin-bottom:1em;}
+@media screen and (min-width: 768px) {
+    body {
+        width: 748px;
+        margin:10px auto;
+    }
+}
+</style>
+<title>PhoneGap / Cordova Instructions for Android</title>
+
+</head>
+<body>
+<h1>PhoneGap / Cordova Instructions for Android</h1>
+
+<p>Screenshots are made from Mac OS X but these instructions will work on Linux and Windows as well.</p>
+
+<h2>1. Download the very latest NodeJS</h2>
+
+<p>You can get it from the <a href="http://nodejs.org/">Node.JS website</a></p>
+
+<p><img src="https://www.evernote.com/shard/s1/sh/b0283b88-4e9d-4a13-92fc-76491df78e22/ddba12c4e6ff886801e533113d7d2cda/deep/0/Fullscreen%2012/2/13%207:22%20PM.png" alt="NodeJS Download" /></p>
+
+<h2>2. Install PhoneGap</h2>
+
+<p><strong>You should be using PhoneGap 3.2.0 or more recent</strong>. Follow the on-screen instructions “Install” instructions on the <a href="http://phonegap.com/install/">PhoneGap Install Page</a></p>
+
+<p><img src="https://www.evernote.com/shard/s1/sh/5cc58074-323e-4e36-a304-7a5377f49353/361f46759774e31eb6d3685bec830ca4/deep/0/Fullscreen%2012/2/13%207:25%20PM.png" alt="PhoneGap Download" /></p>
+
+<h2>3. Download the JDK 7</h2>
+
+<p>You can get it from <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Oracle’s website</a> Once it has been downloaded, install it.
+If you are using (Ubuntu) Linux, use <a href="http://askubuntu.com/questions/67909/how-do-i-install-oracle-jdk-6">this guide</a></p>
+
+<p><img src="https://www.evernote.com/shard/s1/sh/7c4b0ece-494d-47a0-a552-8fbed14b6ffd/fe454b5caf936ada0b047d4d6742dec7/deep/0/Fullscreen%207/16/13%204:03%20PM.png" alt="JDK7 Download Button" /></p>
+
+<h2>4. Download <strong>Android Studio</strong></h2>
+
+<p>You can get it from the <a href="https://developer.android.com/sdk/installing/studio.html">Android website</a> and install it. (NB: The old Eclipse-based ADT may work as well if you already have that, otherwise, download Android Studio)</p>
+
+<p><img src="https://www.evernote.com/shard/s1/sh/0034fddb-dae0-4a83-8b57-2ea4446c9190/25f60be89d2aff596a990fb2fbd79a8a/deep/0/Fullscreen%2012/2/13%207:29%20PM.png" alt="Android Download Button" /></p>
+
+<h2>5. Update your Path</h2>
+
+<p>You must update your path for phone gap to work</p>
+
+<h3>Windows</h3>
+
+<p>the steps change depending on your version of  Windows, but should be similar to these steps:</p>
+
+<ol>
+<li>Click on the Start menu in the lower-left corner of the desktop, right-click on Computer, then click Properties.</li>
+<li>Click Advanced System Settings in the column on the left.</li>
+<li>In the resulting dialog box, press Environment Variables.</li>
+<li>Select the PATH variable and press Edit.</li>
+<li><p>Append the following to the PATH based on where you installed the SDK, for example:</p>
+
+<pre><code>C:\Users\YOURUSERNAME\AppData\Local\Android\android-studio\sdk\tools;C:\Users\YOURUSERNAME\AppData\Local\Android\android-studio\sdk\platform-tools
+</code></pre>
+
+<p> NB!! The string should reflect the path to the Android Studio bundle on your machine! Also note that the path to Android Studio appears twice in the string (once to point to <code>…\platform-tools</code> and once to point to <code>…\tools</code>), and you need to change both occurences!</p></li>
+<li>Save the value and close both dialog boxes.</li>
+<li>Reboot your laptop.</li>
+</ol>
+
+
+<h3>Mac OS X</h3>
+
+<ol type="a">
+<li><p>open or create <code>~/.bash_profile</code> and add the following line:</p>
+
+<pre><code> export PATH=${PATH}:"/Applications/Android Studio.app/sdk/tools":"/Applications/Android Studio.app/sdk/platform-tools"
+</code></pre>
+
+<p> Update the path to Android Studio as necessary if you did not install it in /Applications.</p></li>
+<li>Quit and relaunch the terminal.</li>
+</ol>
+
+
+<h3>Linux</h3>
+
+<p>You should know how to update your path on your preferred linux flavor :) Just make sure you update the path to include both <code>sdk/tools</code> and <code>sdk/platform-tools</code></p>
+
+<h2>6. Create your first phonegap app &amp; run it</h2>
+
+<p>Open a brand new terminal (necessary to pick up the path changes) and try the following commands (one at a time):</p>
+
+<pre><code>    phonegap create my-app com.example.myapp MyApp
+    cd my-app
+    phonegap run android
+</code></pre>
+
+<h2>7. Confirm it works in the emulator</h2>
+
+<p>You should see a black emulator window open, then the word Android will appear and flicker for a while. This means the emulator is starting up correctly. It may take it up to 10 minutes to load</p>
+
+<p>If it is the first time you run the emulator, you may need to dismiss the welcome messages inside the OS before the app can start. In some cases, <strong>you may need to quit the emulator and Run the app again, or go through the intro guide to Android inside the emulator</strong> to make it launch. In other cases, you will need to wake the emulator by clicking or click-swiping across the screen to “unlock” the phone</p>
+
+<p>You should eventually see the Apache Cordova logo and green text appear after a while. <strong>If you see it, your are ready to attend the class!</strong></p>
+
+<p><img src="https://www.evernote.com/shard/s1/sh/16a8505e-870a-4d4e-a982-e104d0c89d20/4128d1d396daa090087bd703e4370acb/deep/0/Fullscreen%204/24/13%208:22%20AM.png" alt="Cordova Scren" /></p>
+</body>
+</html>

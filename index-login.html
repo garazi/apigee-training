@@ -27,7 +27,7 @@
 
           // Initializing the SDK
             var client = new Apigee.Client({
-                orgName:'garazi', // Your Apigee.com username for App Services
+                orgName:'yourorgname', // Your Apigee.com username for App Services
                 appName:'sandbox' // Your Apigee App Services app name
             });
 
@@ -119,8 +119,8 @@
             function geoSuccess (e) {
               console.log(e)
               location = e;
-              // loadBooks(location);
-              loadBooks();
+              // loadBooks(location); <-- uncomment this if you want to use geolocation
+              loadBooks(); // <-- comment this line out if you uncomment the line above
             }
 
             function geoFailure () {
@@ -308,11 +308,12 @@
               </li> -->
           </ul>
       </div>
-      <div id="slider-wrapper" data-role="footer" data-position="fixed" data-theme="b">
+      <!-- Uncomment the following lines if you want to use the slider with geolocation -->
+      <!-- <div id="slider-wrapper" data-role="footer" data-position="fixed" data-theme="b">
         <form>
             <input type="range" name="distance-slider" id="distance-slider" min="0" max="1000" value="300">
         </form>
-      </div>
+      </div> -->
   </div>
   <div data-role="page" data-control-title="Add Form" id="page-add">
       <div data-theme="b" data-role="header">
